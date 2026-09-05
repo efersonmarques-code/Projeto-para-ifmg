@@ -154,6 +154,34 @@
 		.action-button.secondary { color: var(--green); background: transparent; border: 1px solid var(--line); }
 		.action-button.secondary:hover { background: #f0eee7; }
 		.empty { padding: 40px; text-align: center; background: var(--card); border: 1px solid var(--line); border-radius: 10px; }
+		.mini-simulado { margin-top: 34px; padding: 24px; background: linear-gradient(180deg, rgba(255,255,255,.96), rgba(246,244,238,.92)); border: 1px solid var(--line); border-radius: 14px; box-shadow: var(--shadow); }
+		.mini-header { display: flex; justify-content: space-between; align-items: end; gap: 20px; margin-bottom: 18px; }
+		.mini-header h2 { margin-bottom: 6px; font-size: 2rem; letter-spacing: -.03em; }
+		.mini-header p { margin-bottom: 0; color: var(--muted); }
+		.mini-controls { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 16px; }
+		.mini-area-btn { padding: 10px 14px; color: var(--green); background: #fff; border: 1px solid var(--line); border-radius: 999px; font: 700 12px Arial, sans-serif; }
+		.mini-area-btn.active { background: var(--green-light); border-color: rgba(17,100,79,.28); }
+		.start-mini { padding: 12px 16px; color: #fff; background: var(--green); border: 0; border-radius: 8px; font-weight: bold; }
+		.mini-card { padding: 22px; background: var(--card); border: 1px solid var(--line); border-radius: 10px; }
+		.mini-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 18px; font: 700 11px Arial, sans-serif; letter-spacing: .08em; text-transform: uppercase; }
+		.mini-tag { display: inline-flex; padding: 7px 9px; color: var(--green); background: var(--green-light); border-radius: 5px; }
+		.mini-quest { margin: 0 0 20px; font-size: clamp(1.35rem, 2.4vw, 1.9rem); line-height: 1.25; letter-spacing: -.02em; }
+		.mini-context { margin: -8px 0 18px; padding-left: 14px; color: var(--muted); border-left: 3px solid var(--yellow); line-height: 1.5; }
+		.mini-options { display: grid; gap: 10px; }
+		.mini-option { display: grid; grid-template-columns: 28px 1fr; align-items: center; gap: 10px; width: 100%; padding: 12px 14px; color: var(--ink); text-align: left; background: #fff; border: 1px solid var(--line); border-radius: 8px; }
+		.mini-option.correct { background: #e3f3e7; border-color: #6cb481; color: #13583d; }
+		.mini-option.incorrect { background: #fce9e3; border-color: #de846f; color: #863c2d; }
+		.mini-option:disabled { cursor: default; }
+		.mini-option-letter { display: grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; color: var(--green); background: var(--green-light); font: 700 11px Arial, sans-serif; }
+		.mini-option.correct .mini-option-letter { background: #32965d; color: #fff; }
+		.mini-option.incorrect .mini-option-letter { background: #cf604b; color: #fff; }
+		.mini-feedback { margin-top: 18px; padding: 16px; border-radius: 8px; background: var(--green-light); }
+		.mini-feedback-title { margin-bottom: 8px; color: var(--green); font-weight: bold; }
+		.mini-feedback p { margin: 0; line-height: 1.55; }
+		.mini-next { margin-top: 18px; }
+		.summary-box { padding: 22px; background: #fff; border: 1px solid var(--line); border-radius: 10px; }
+		.summary-box strong { display: block; margin-bottom: 8px; font-size: 1.2rem; }
+		.summary-box p { margin: 0; color: var(--muted); line-height: 1.6; }
 		footer { padding: 28px 6vw; color: var(--muted); text-align: center; font-size: .9rem; border-top: 1px solid var(--line); }
 		@media (max-width: 760px) {
 			header { padding: 22px 5vw 64px; }
@@ -231,7 +259,7 @@
 						<div class="recommendations-header">Aulas recomendadas</div>
 						<div class="rec-list" id="recommendations-list"></div>
 					</div>
-					<div class="study-tip"><strong>Pequeno método</strong><p>Quando errar, explique em voz alta por que a alternativa correta faz sentido. A memória gosta de conexões.</p></div>
+					<div class="study-tip"><strong>Pequeno método</strong><p>Na prova do IFMG, o foco é a interpretação. Tente resolver as questões com leitura cuidadosa e revise em blocos de 12 por área, escolhendo os temas mais recorrentes.</p></div>
 				</aside>
 
 				<section class="workspace" aria-live="polite">
@@ -243,6 +271,26 @@
 						</div>
 					</div>
 					<div id="question-container"></div>
+					<section class="mini-simulado" aria-label="Simulado rápido do IFMG">
+						<div class="mini-header">
+							<div>
+								<h2>Simulado rápido</h2>
+								<p>3 questões em estilo IFMG para testar leitura, interpretação e revisão rápida.</p>
+							</div>
+						</div>
+						<div class="mini-controls">
+							<button class="mini-area-btn active" data-area="Linguagens">Linguagens</button>
+							<button class="mini-area-btn" data-area="Matemática">Matemática</button>
+							<button class="mini-area-btn" data-area="Natureza">Natureza</button>
+							<button class="mini-area-btn" data-area="Humanas">Humanas</button>
+							<button class="mini-area-btn" data-area="NaturezaHumanas">12Q Natureza + Humanas</button>
+							<button class="mini-area-btn" data-mode="basico">Rodada 1</button>
+							<button class="mini-area-btn" data-mode="avancado">Rodada 2</button>
+							<button class="mini-area-btn" data-mode="final">Rodada 3</button>
+							<button class="start-mini" id="start-mini-simulado">Iniciar simulado</button>
+						</div>
+						<div id="mini-simulado-container"></div>
+					</section>
 				</section>
 			</div>
 		</main>
@@ -250,6 +298,88 @@
 	</div>
 
 	<script>
+		const quickSimulado = {
+			Linguagens: [
+				{ question: 'Em um texto informativo, o que mais ajuda a distinguir fato de opinião?', context: 'A notícia relata a criação de um novo parque urbano e, em seguida, o autor afirma que essa foi a melhor decisão do governo.', options: ['Dados verificáveis e fontes confiáveis.', 'Uso de frases longas.', 'A presença de personagens narrativos.', 'A quantidade de parágrafos.'], answer: 0, explanation: 'Fatos são baseados em dados e fontes; opiniões expressam um julgamento pessoal e subjetivo.' },
+				{ question: 'Na frase “As crianças, cansadas do caminho, pararam na praça”, a expressão destacada funciona como:', options: ['Adjunto adverbial de tempo.', 'Oração subordinada adjetiva.', 'Aposto explicativo.', 'Vocativo.'], answer: 2, explanation: 'A expressão “cansadas do caminho” explica uma característica das crianças; por isso, funciona como aposto explicativo.' },
+				{ question: 'Qual recurso é predominante em “O rio cantava sua tristeza na noite”?', options: ['Metáfora.', 'Personificação.', 'Antítese.', 'Ironia.'], answer: 1, explanation: 'A personificação atribui ao rio uma ação humana: cantar. Isso é típico da prosopopeia.' }
+			],
+			Matemática: [
+				{ question: 'Um produto custa R$ 200,00 e recebe 15% de desconto. Seu valor final é:', options: ['R$ 160,00', 'R$ 170,00', 'R$ 180,00', 'R$ 185,00'], answer: 1, explanation: '15% de 200 é 30. 200 - 30 = 170.' },
+				{ question: 'Qual é a área de um retângulo de 8 cm por 5 cm?', options: ['13 cm²', '26 cm²', '40 cm²', '80 cm²'], answer: 2, explanation: 'Área = base × altura = 8 × 5 = 40 cm².' },
+				{ question: 'Se uma moeda é lançada duas vezes, a probabilidade de sair cara em ambos os lançamentos é:', options: ['1/2', '1/3', '1/4', '3/4'], answer: 2, explanation: 'A chance de cara em cada lançamento é 1/2; multiplicando: 1/2 × 1/2 = 1/4.' }
+			],
+			Natureza: [
+				{ question: 'Qual é a principal fonte de energia para a maioria dos ecossistemas terrestres?', context: 'Os produtores transformam essa energia em matéria orgânica.', options: ['Energia elétrica.', 'Energia solar.', 'Energia nuclear.', 'Energia térmica do interior da Terra.'], answer: 1, explanation: 'A energia solar é captada pelos produtores, como plantas, por meio da fotossíntese.' },
+				{ question: 'O sistema circulatório é responsável por:', options: ['Produzir hormônios no corpo.', 'Transportar nutrientes e oxigênio para as células.', 'Controlar a respiração consciente.', 'Armazenar gordura como energia imediata.'], answer: 1, explanation: 'O sistema circulatório leva oxigênio e nutrientes às células e retira resíduos metabólicos.' },
+				{ question: 'A urbanização é um processo relacionado a:', options: ['Aumento das áreas rurais e do plantio tradicional.', 'Crescimento das cidades e concentração da população urbana.', 'Extinção das indústrias.', 'Desaparecimento dos mapas e das rotas de transporte.'], answer: 1, explanation: 'Urbanização refere-se ao crescimento das cidades e à maior concentração populacional em áreas urbanas.' }
+			]
+		};
+
+		const quickSimuladoDificil = {
+			Linguagens: [
+				{ question: 'Na frase “A cidade, que estava em festa, foi tomada por um silêncio estranho”, a oração destacada é classificada como:', options: ['Subordinada adverbial temporal.', 'Subordinada adjetiva explicativa.', 'Subordinada substantiva objetiva direta.', 'Coordenada sindética conclusiva.'], answer: 1, explanation: 'A oração “que estava em festa” explica a cidade e vem isolada por vírgulas; por isso, é adjetiva explicativa.' },
+				{ question: 'Qual alternativa apresenta melhor uso da coesão referencial?', options: ['O professor explicou a regra. Os alunos a entenderam rapidamente.', 'O professor explicou a regra. Depois, ela foi muito difícil.', 'O professor explicou. Os alunos acharam a regra cansativa por isso.', 'O professor explicou a regra, porque todos gostaram.'], answer: 0, explanation: 'O pronome “a” retoma “a regra”, estabelecendo referência clara e coesão textual adequada.' },
+				{ question: 'Em “A notícia foi tão clara que todos entenderam”, a expressão “tão clara que” introduz uma relação de:', options: ['Condição.', 'Comparação.', 'Consequência.', 'Causa.'], answer: 2, explanation: 'A ideia de “entenderam” decorre da clareza da notícia; por isso, há relação de consequência.' }
+			],
+			Matemática: [
+				{ question: 'Se x + 3 = 11, qual é o valor de x?', options: ['6', '7', '8', '9'], answer: 2, explanation: 'Subtraindo 3 de ambos os lados: x = 11 - 3 = 8.' },
+				{ question: 'O valor de 3² + 4² é:', options: ['12', '25', '49', '14'], answer: 1, explanation: '3² = 9 e 4² = 16; 9 + 16 = 25.' },
+				{ question: 'Uma turma tem 24 alunos. Se 3/4 deles foram aprovados, quantos alunos foram aprovados?', options: ['12', '16', '18', '20'], answer: 2, explanation: '3/4 de 24 = 24 ÷ 4 = 6 e 6 × 3 = 18. Logo, 18 alunos foram aprovados.' }
+			],
+			Natureza: [
+				{ question: 'Qual processo é essencial para a formação de matéria orgânica pelos produtores?', context: 'Esse processo depende da energia solar e da presença de clorofila.', options: ['Respiração celular.', 'Fotossíntese.', 'Fermentação.', 'Digestão.'], answer: 1, explanation: 'A fotossíntese transforma energia solar em energia química armazenada na matéria orgânica.' },
+				{ question: 'Em um ambiente com grande poluição do ar, qual efeito é mais diretamente relacionado ao aumento de gases como o CO₂?', options: ['Efeito estufa.', 'Erosão pluvial.', 'Magnetismo terrestre.', 'Fase da lua.'], answer: 0, explanation: 'O excesso de CO₂ intensifica o efeito estufa e aumenta o aquecimento global.' },
+				{ question: 'Qual fenômeno é característico da urbanização acelerada?', options: ['Diminuição da concentração populacional nas cidades.', 'Aumento do número de pessoas vivendo em áreas urbanas.', 'Extinção dos serviços urbanos.', 'Eliminação de desigualdades sociais por completo.'], answer: 1, explanation: 'A urbanização envolve crescimento das cidades e maior concentração de população nas áreas urbanas.' }
+			]
+		};
+
+		const quickSimuladoFinal = {
+			Linguagens: [
+				{ question: 'Leia o trecho: “O impacto ambiental cresceu, mas as políticas públicas ainda são insuficientes.” A ideia principal do trecho é:', options: ['As políticas públicas são adequadas para o problema ambiental.', 'Há crescimento do impacto ambiental e pouca resposta institucional.', 'O problema ambiental já foi resolvido.', 'A população não sofre com a degradação ambiental.'], answer: 1, explanation: 'A frase apresenta uma contradição: o problema cresce, mas a resposta do Estado ainda é insuficiente.' },
+				{ question: 'Qual palavra estabelece melhor relação de causa e consequência no contexto? “As vazamentos de água na rua ________ a perda de recursos hídricos e geraram reclamações.”', options: ['seguiam', 'causaram', 'aprenderam', 'acreditam'], answer: 1, explanation: '“Causaram” indica a consequência direta do problema, ligando com a perda de recursos hídricos.' },
+				{ question: 'No texto “A cidade acordou diferente”, o verbo “acordou” transmite:', options: ['sentido literal, sem metáfora', 'personificação', 'comparação objetiva', 'conotação de tempo cronológico'], answer: 1, explanation: 'A cidade não acorda literalmente; a expressão atribui um comportamento humano à cidade, caracterizando a personificação.' }
+			],
+			Matemática: [
+				{ question: 'Se 5x - 7 = 18, qual é o valor de x?', options: ['4', '5', '6', '7'], answer: 2, explanation: '5x = 25 e x = 5. O valor correto é 5.' },
+				{ question: 'A área de um triângulo com base 10 cm e altura 6 cm é:', options: ['30 cm²', '60 cm²', '16 cm²', '20 cm²'], answer: 0, explanation: 'Área do triângulo = base × altura ÷ 2 = 10 × 6 ÷ 2 = 30 cm².' },
+				{ question: 'Qual é a probabilidade de tirar uma carta de copas em um baralho de 52 cartas?', options: ['1/4', '1/13', '1/52', '1/2'], answer: 1, explanation: 'Há 4 naipes e 13 cartas por naipe; a chance de sair copas é 13/52 = 1/4. O valor correto é 1/4.' }
+			],
+			Natureza: [
+				{ question: 'A fotossíntese é importante porque:', context: 'Esse processo ocorre principalmente em folhas verdes.', options: ['Produz matéria orgânica e libera oxigênio.', 'Destrói os nutrientes do solo.', 'Elimina a necessidade de água na planta.', 'Transforma umidade em ferro.'], answer: 0, explanation: 'A fotossíntese produz glicose e libera oxigênio, além de sustentar a cadeia alimentar.' },
+				{ question: 'Qual é a principal função do sistema respiratório?', options: ['Transportar sangue para o coração.', 'Permitir a troca de gases entre o corpo e o ambiente.', 'Produzir hormônios.', 'Absorver alimentos no intestino.'], answer: 1, explanation: 'O sistema respiratório permite a entrada de oxigênio e a saída de gás carbônico.' },
+				{ question: 'A globalização está associada principalmente a:', options: ['Aumento da autossuficiência econômica local.', 'Maior integração econômica e tecnológica entre países.', 'Fim das migrações.', 'Redução do comércio internacional.'], answer: 1, explanation: 'A globalização intensifica a interdependência entre países por meio do comércio, tecnologia e comunicação.' }
+			]
+		};
+
+		const revisaoEnfase = {
+			Natureza: [
+				{ question: 'Em uma cadeia alimentar, os produtores são importantes porque:', context: 'Eles captam energia do ambiente e transformam em matéria orgânica.', options: ['Decompõem detritos e reciclam nutrientes.', 'Transformam energia solar em energia química.', 'Consomem diretamente os consumidores primários.', 'Não dependem de água para sobreviver.'], answer: 1, explanation: 'Os produtores, como plantas e algas, realizam fotossíntese e iniciam a cadeia alimentar ao transformar energia solar em matéria orgânica.' },
+				{ question: 'Qual fenômeno está diretamente relacionado ao aumento de gases como o CO₂ na atmosfera?', options: ['Efeito estufa intensificado.', 'Diminuição da temperatura global.', 'Aumento do pH da água.', 'Extinção do sistema circulatório.'], answer: 0, explanation: 'O excesso de CO₂ intensifica o efeito estufa, tornando a retenção de calor mais forte e alterando o clima.' },
+				{ question: 'O sistema circulatório tem como função principal:', options: ['Permitir a troca de gases no pulmão.', 'Transportar sangue com oxigênio e nutrientes para as células.', 'Controlar a digestão no intestino.', 'Produzir energia por meio da respiração.'], answer: 1, explanation: 'O sistema circulatório distribui nutrientes e oxigênio para as células e leva resíduos para eliminação.' }
+			],
+			Humanas: [
+				{ question: 'A urbanização acelerada pode causar, principalmente:', options: ['A distribuição igualitária de serviços públicos em todas as regiões.', 'Concentração populacional em cidades e problemas de infraestrutura.', 'Redução das atividades industriais.', 'Extinção dos movimentos migratórios.'], answer: 1, explanation: 'A urbanização rápida geralmente concentra pessoas nas cidades e amplia desafios como moradia, transporte e saneamento.' },
+				{ question: 'A Proclamação da República, em 1889, marcou:', options: ['O fim da monarquia no Brasil.', 'O início da escravidão no país.', 'A criação da Constituição de 1988.', 'O fim da globalização.'], answer: 0, explanation: 'A Proclamação da República marcou o fim do regime monárquico e o início de um novo modelo político no Brasil.' },
+				{ question: 'A globalização está associada ao(a):', options: ['Aumento da autossuficiência econômica local.', 'Maior interdependência entre países, comércio e tecnologia.', 'Fim das trocas comerciais internacionais.', 'Redução do uso de mapas e comunicação.'], answer: 1, explanation: 'A globalização amplia o comércio, a tecnologia e as relações entre países, criando maior interdependência econômica e cultural.' }
+			]
+		};
+
+		const simuladoNaturezaHumanas = [
+			{ area: 'Natureza', tag: 'Ecologia', question: 'Qual é a função principal dos produtores em um ecossistema?', context: 'Eles iniciam a transferência de energia na cadeia alimentar.', options: ['Decompor resíduos orgânicos.', 'Transformar energia solar em matéria orgânica.', 'Consumir os consumidores primários.', 'Produzir gás carbônico para todos os seres vivos.'], answer: 1, explanation: 'Produtores, como plantas e algas, realizam fotossíntese e transformam energia solar em energia química armazenada na matéria orgânica.' },
+			{ area: 'Natureza', tag: 'Meio ambiente', question: 'O aumento de CO₂ na atmosfera está associado principalmente a:', options: ['Diminuição da temperatura global.', 'Efeito estufa e aquecimento global.', 'Aumento da chuva ácida sem consequências.', 'Eliminação completa dos gases do ar.'], answer: 1, explanation: 'O gás carbônico e outros gases de efeito estufa retêm calor na atmosfera, intensificando o aquecimento global.' },
+			{ area: 'Natureza', tag: 'Corpo humano', question: 'Qual sistema é responsável por levar oxigênio e nutrientes para as células?', options: ['Sistema nervoso.', 'Sistema circulatório.', 'Sistema genital.', 'Sistema ósseo.'], answer: 1, explanation: 'O sistema circulatório distribui sangue, oxigênio e nutrientes pelo corpo e retira resíduos metabólicos.' },
+			{ area: 'Natureza', tag: 'Matéria', question: 'A mudança do estado líquido para o gasoso é chamada de:', options: ['Fusão.', 'Sublimação.', 'Vaporização.', 'Condensação.'], answer: 2, explanation: 'Na vaporização, a substância passa do líquido para o gasoso, como ocorre na evaporação da água.' },
+			{ area: 'Natureza', tag: 'Saúde', question: 'A respiração é importante porque permite:', options: ['A entrada de oxigênio e a saída de gás carbônico.', 'A produção de fibras musculares.', 'A formação de sangue nas pernas.', 'A eliminação do intestino grosso.'], answer: 0, explanation: 'O sistema respiratório permite trocas gasosas: o organismo absorve oxigênio e elimina gás carbônico.' },
+			{ area: 'Natureza', tag: 'Energia', question: 'Ao observar um circuito elétrico simples, a energia elétrica pode ser convertida em:', options: ['Luz e calor.', 'Som e geada.', 'Matéria gasosa somente.', 'Nutrientes para o solo.'], answer: 0, explanation: 'Em aparelhos elétricos, a energia elétrica pode ser transformada em luz, calor, movimento e som.' },
+			{ area: 'Humanas', tag: 'História', question: 'A Proclamação da República, em 1889, marcou:', options: ['O fim da monarquia brasileira.', 'O início do período colonial.', 'A lei de terras do império.', 'A criação do Estado Novo.'], answer: 0, explanation: 'A Proclamação da República foi o momento em que o Brasil deixou o regime monárquico e passou a ter um governo republicano.' },
+			{ area: 'Humanas', tag: 'Geografia', question: 'O processo de urbanização está relacionado principalmente a:', options: ['Crescimento das cidades e maior concentração populacional urbana.', 'Aumento das áreas rurais e da agricultura tradicional.', 'Extinção das grandes metrópoles.', 'Desaparecimento do comércio internacional.'], answer: 0, explanation: 'Urbanização significa o crescimento das cidades e a concentração da população em áreas urbanas.' },
+			{ area: 'Humanas', tag: 'Sociedade', question: 'A globalização é caracterizada, em geral, por:', options: ['Maior interdependência econômica e tecnológica entre países.', 'Fim completo das migrações humanas.', 'Aumento da autonomia nacional em todas as áreas.', 'Desligamento do comércio entre continentes.'], answer: 0, explanation: 'A globalização integra países por meio de comércio, tecnologia, comunicação e finanças.' },
+			{ area: 'Humanas', tag: 'Cidadania', question: 'Uma democracia exige, entre outros princípios:', options: ['A exclusão de grupos minoritários.', 'A participação dos cidadãos e o respeito às leis.', 'A concentração de poder em uma pessoa.', 'O fim das eleições.'], answer: 1, explanation: 'A democracia se baseia na participação política, na pluralidade e no respeito à lei e aos direitos.' },
+			{ area: 'Humanas', tag: 'Geografia', question: 'O estudo do relevo e do clima ajuda a entender:', options: ['A formação e a distribuição dos diferentes espaços geográficos.', 'A composição química dos alimentos.', 'A origem das árvores do parque.', 'O funcionamento do sistema circulatório.'], answer: 0, explanation: 'Relevo, clima e vegetação influenciam a ocupação e a organização dos espaços geográficos.' },
+			{ area: 'Humanas', tag: 'História', question: 'A escravidão no Brasil foi um fenômeno marcado por:', options: ['Liberdade de trabalho para todos.', 'Exploração de pessoas e trabalho forçado.', 'Condição temporária para imigrantes.', 'Cessação da produção agrícola.'], answer: 1, explanation: 'A escravidão era uma forma de exploração em que pessoas eram privadas de liberdade e submetidas ao trabalho forçado.' }
+		];
+
 		const questions = [
 			{ area: 'Linguagens', tag: 'Leitura', question: 'Em uma notícia, qual elemento ajuda principalmente o leitor a distinguir um fato de uma opinião?', context: 'A notícia informa que a biblioteca recebeu 500 novos livros. Em seguida, o autor afirma que essa foi a melhor iniciativa cultural do ano.', options: ['A presença de dados verificáveis e fontes identificadas.', 'O uso de palavras que demonstram entusiasmo.', 'A opinião do autor aparecer depois do fato.', 'O tamanho do título da notícia.'], answer: 0, explanation: 'Fatos podem ser conferidos e costumam vir acompanhados de dados, fontes ou registros. Já a avaliação “a melhor iniciativa” é uma opinião, pois expressa um julgamento.' },
 			{ area: 'Linguagens', tag: 'Análise linguística', question: 'Na frase “Os estudantes que revisaram o conteúdo resolveram a questão”, como se classifica a oração “que revisaram o conteúdo”?', options: ['Oração subordinada adjetiva explicativa.', 'Oração subordinada adjetiva restritiva.', 'Oração coordenada sindética explicativa.', 'Oração subordinada adverbial causal.'], answer: 1, explanation: 'A oração “que revisaram o conteúdo” restringe o grupo de estudantes: ela indica quais estudantes resolveram a questão. Por isso, é uma oração adjetiva restritiva e não vem entre vírgulas.' },
@@ -257,12 +387,12 @@
 			{ area: 'Matemática', tag: 'Álgebra', question: 'Uma loja oferece 20% de desconto em uma mochila de R$ 150,00. Qual é o preço final?', options: ['R$ 120,00', 'R$ 125,00', 'R$ 130,00', 'R$ 135,00'], answer: 0, explanation: 'Primeiro calculamos 20% de 150: 0,20 x 150 = 30. Depois subtraímos o desconto: 150 - 30 = R$ 120,00.' },
 			{ area: 'Matemática', tag: 'Geometria', question: 'Um triângulo retângulo tem catetos medindo 6 cm e 8 cm. Quanto mede sua hipotenusa?', options: ['10 cm', '12 cm', '14 cm', '16 cm'], answer: 0, explanation: 'Pelo Teorema de Pitágoras, h² = 6² + 8² = 36 + 64 = 100. Logo, h é a raiz quadrada de 100: 10 cm.' },
 			{ area: 'Matemática', tag: 'Probabilidade', question: 'Em uma caixa há 3 bolas vermelhas e 2 azuis. Retirando uma bola ao acaso, qual a probabilidade de ela ser azul?', options: ['2/3', '2/5', '3/5', '1/2'], answer: 1, explanation: 'Há 5 bolas no total e 2 delas são azuis. Portanto, a probabilidade é casos favoráveis sobre casos possíveis: 2/5, ou 40%.' },
-			{ area: 'Natureza', tag: 'Matéria e energia', question: 'Qual transformação de energia predomina em um chuveiro elétrico ligado?', options: ['Elétrica em térmica.', 'Térmica em luminosa.', 'Química em sonora.', 'Luminosa em mecânica.'], answer: 0, explanation: 'A resistência do chuveiro transforma a energia elétrica em energia térmica, aquecendo a água. Essa é a transformação predominante do aparelho.' },
-			{ area: 'Natureza', tag: 'Vida e evolução', question: 'Qual é a principal função das raízes para a maioria das plantas?', options: ['Produzir sementes e frutos.', 'Absorver água e sais minerais e fixar a planta.', 'Realizar a polinização.', 'Atrair animais por meio de cores.'], answer: 1, explanation: 'As raízes fixam a planta no solo e absorvem água e sais minerais. Folhas, flores e frutos desempenham outras funções importantes.' },
-			{ area: 'Natureza', tag: 'Terra e universo', question: 'O efeito estufa natural é importante porque:', options: ['Impede toda a entrada de radiação solar.', 'Mantém a Terra aquecida em condições adequadas à vida.', 'Elimina o gás carbônico da atmosfera.', 'Produz o movimento de rotação terrestre.'], answer: 1, explanation: 'Gases da atmosfera retêm parte do calor e mantêm a temperatura média do planeta adequada. A atividade humana intensifica esse fenômeno ao aumentar a concentração desses gases.' },
-			{ area: 'Humanas', tag: 'História recente', question: 'A Constituição brasileira de 1988 é conhecida como Constituição Cidadã porque:', options: ['Ampliou e garantiu direitos civis, políticos e sociais.', 'Criou o regime colonial no Brasil.', 'Limitou a participação política a proprietários.', 'Extinguiu os direitos trabalhistas.'], answer: 0, explanation: 'Promulgada após a ditadura civil-militar, a Constituição de 1988 ampliou direitos e fortaleceu a cidadania, a participação política e a proteção social.' },
-			{ area: 'Humanas', tag: 'Geografia', question: 'Quando uma cidade cresce sem planejamento, um possível conflito socioespacial é:', options: ['A redução automática das desigualdades.', 'A distribuição igual de serviços por todos os bairros.', 'A ocupação de áreas de risco e a falta de infraestrutura.', 'O desaparecimento dos deslocamentos urbanos.'], answer: 2, explanation: 'O crescimento urbano desigual pode levar populações a ocupar áreas de risco, enquanto serviços e infraestrutura ficam concentrados em algumas regiões. Isso produz desigualdade socioespacial.' },
-			{ area: 'Humanas', tag: 'Brasil no século XIX', question: 'A abolição da escravidão no Brasil, em 1888, não garantiu igualdade social porque:', options: ['A abolição eliminou imediatamente o racismo na sociedade.', 'Não houve políticas suficientes de inclusão, terra, trabalho e cidadania.', 'Todos os ex-escravizados receberam as mesmas condições econômicas.', 'A República já havia sido proclamada.'], answer: 1, explanation: 'A liberdade jurídica não veio acompanhada de políticas amplas de reparação e inclusão. Essa herança contribuiu para desigualdades que ainda aparecem na sociedade brasileira.' }
+			{ area: 'Natureza', tag: 'Ecologia', question: 'Qual é o papel dos produtores em uma cadeia alimentar?', context: 'Em um ecossistema, a energia entra por meio dos seres autotróficos e passa para outros organismos.', options: ['Transformar energia solar em matéria orgânica.', 'Decompor matéria morta em nutrientes.', 'Consumir outros consumidores.', 'Produzir oxigênio apenas em ambientes aquáticos.'], answer: 0, explanation: 'Os produtores, como plantas e algas, realizam fotossíntese e transformam energia solar em matéria orgânica, iniciando a cadeia alimentar.' },
+			{ area: 'Natureza', tag: 'Saúde', question: 'Qual sistema do corpo humano é responsável pela distribuição de nutrientes e oxigênio para as células?', options: ['Sistema nervoso.', 'Sistema circulatório.', 'Sistema respiratório.', 'Sistema digestório.'], answer: 1, explanation: 'O sistema circulatório transporta sangue, nutrientes e oxigênio para todas as células do corpo, além de remover resíduos metabólicos.' },
+			{ area: 'Natureza', tag: 'Matéria e energia', question: 'Quando a água passa do estado líquido para o gasoso, o processo é chamado de:', options: ['Solidificação.', 'Fusão.', 'Vaporização.', 'Condensação.'], answer: 2, explanation: 'A vaporização é a passagem do estado líquido para o gasoso, como ocorre na evaporação da água em um dia quente.' },
+			{ area: 'Humanas', tag: 'História do Brasil', question: 'A Proclamação da República, em 1889, representou principalmente:', options: ['O fim do regime monárquico brasileiro.', 'A abolição definitiva da escravidão.', 'A instalação da ditadura militar.', 'A criação do primeiro partido político.'], answer: 0, explanation: 'A Proclamação da República marcou o fim da monarquia no Brasil e o início de um novo regime político.' },
+			{ area: 'Humanas', tag: 'Geografia', question: 'Quando falamos de urbanização, estamos nos referindo ao processo de:', options: ['Aumento da população rural.', 'Crescimento das cidades e concentração populacional urbana.', 'Redução das taxas de industrialização.', 'Expansão das áreas de floresta nativa.'], answer: 1, explanation: 'Urbanização é o processo de crescimento das cidades e de aumento da população urbana, muitas vezes associado à industrialização e à migração do campo para a cidade.' },
+			{ area: 'Humanas', tag: 'Globalização', question: 'A globalização está ligada, em grande parte, ao(a):', options: ['Aumento dos blocos econômicos e da interdependência entre países.', 'Fim das trocas comerciais entre nações.', 'Desaparecimento da tecnologia.', 'Restrição do uso de mapas e transportes.'], answer: 0, explanation: 'A globalização envolve maior integração econômica, tecnológica e cultural entre países, ampliando o comércio e as conexões globais.' }
 		];
 
 		let selectedArea = 'Todas';
@@ -279,10 +409,10 @@
 		};
 		const areaDescriptions = {
 			Todas: 'Pratique um pouco de cada componente da prova.',
-			Linguagens: 'Compreensão de texto, interpretação, gramática e análise linguística do ensino médio.',
+			Linguagens: 'Compreensão de texto, interpretação, gramática, coesão e análise linguística.',
 			Matemática: 'Números, álgebra, geometria, medidas, porcentagem, regra de três e probabilidade.',
-			Natureza: 'Física, química, biologia, ecologia, energia e fenômenos naturais do cotidiano.',
-			Humanas: 'História, geografia, cidadania, direitos, espaço urbano e sociedade.'
+			Natureza: 'Ecologia, saúde e corpo humano, matéria e energia, e fenômenos físicos do cotidiano.',
+			Humanas: 'História do Brasil e geral, geografia, espaço urbano, população, clima e globalização.'
 		};
 		const recommendations = {
 			Todas: [
@@ -302,14 +432,14 @@
 				{ label: 'Aula 3', title: 'Probabilidade e estatística', description: 'Princípio fundamental da contagem, média, mediana, moda e interpretação de gráficos.', duration: '11 min', focus: 'Análise', link: 'https://www.youtube.com/results?search_query=probabilidade+estatistica+ensino+fundamental' }
 			],
 			Natureza: [
-				{ label: 'Aula 1', title: 'Matéria e energia', description: 'Transformações de energia, fenômenos físicos, calor, movimento e energia elétrica.', duration: '16 min', focus: 'Física', link: 'https://www.youtube.com/results?search_query=energia+fisica+ensino+fundamental' },
-				{ label: 'Aula 2', title: 'Biologia e ecologia', description: 'Funções das plantas, células, ciclos da vida e relações entre organismos e ambiente.', duration: '15 min', focus: 'Biologia', link: 'https://www.youtube.com/results?search_query=biologia+ecologia+ensino+fundamental' },
-				{ label: 'Aula 3', title: 'Atmosfera e química', description: 'Efeito estufa, substâncias, reações, água, solo e processos naturais do planeta.', duration: '14 min', focus: 'Química', link: 'https://www.youtube.com/results?search_query=quimica+ambiente+efeito+estufa+ensino+fundamental' }
+				{ label: 'Aula 1', title: 'Ecologia e meio ambiente', description: 'Cadeias alimentares, ecossistemas, poluição, desmatamento, efeito estufa e preservação ambiental.', duration: '16 min', focus: 'Ecologia', link: 'https://www.youtube.com/results?search_query=ecologia+meio+ambiente+ensino+fundamental' },
+				{ label: 'Aula 2', title: 'Corpo humano e saúde', description: 'Sistemas digestório, respiratório e circulatório, hábitos saudáveis e doenças causadas por agentes externos.', duration: '15 min', focus: 'Biologia', link: 'https://www.youtube.com/results?search_query=sistemas+do+corpo+humano+ensino+fundamental' },
+				{ label: 'Aula 3', title: 'Matéria, energia e física cotidiana', description: 'Estados físicos da matéria, misturas, energia elétrica, calor, temperatura e consumo consciente.', duration: '14 min', focus: 'Física e química', link: 'https://www.youtube.com/results?search_query=energia+eletrica+materia+fisica+quimica+ensino+fundamental' }
 			],
 			Humanas: [
-				{ label: 'Aula 1', title: 'Constituição e cidadania', description: 'Direitos civis, políticos e sociais, além da importância da Constituição de 1988.', duration: '18 min', focus: 'Direitos', link: 'https://www.youtube.com/results?search_query=constituicao+1988+direitos+cidadania' },
-				{ label: 'Aula 2', title: 'Geografia urbana e espaço', description: 'Urbanização, desigualdade social, infraestrutura, ocupação do espaço e migração.', duration: '16 min', focus: 'Geografia', link: 'https://www.youtube.com/results?search_query=urbanizacao+geografia+desigualdade+ensino+fundamental' },
-				{ label: 'Aula 3', title: 'História e sociedade', description: 'Escravidão, abolição, Brasil imperial, transformações sociais e cidadania.', duration: '17 min', focus: 'História', link: 'https://www.youtube.com/results?search_query=historia+escravidao+abolicao+brasil' }
+				{ label: 'Aula 1', title: 'História do Brasil e do mundo', description: 'Colonialismo, Independência, República, movimentos sociais, Revolução Industrial e transformações históricas.', duration: '18 min', focus: 'História', link: 'https://www.youtube.com/results?search_query=historia+do+brasil+revolucao+industrial+ensino+fundamental' },
+				{ label: 'Aula 2', title: 'Geografia e território', description: 'Clima, vegetação, relevo, hidrografia, urbanização, população, mapas e fusos horários.', duration: '16 min', focus: 'Geografia', link: 'https://www.youtube.com/results?search_query=geografia+clima+vegetacao+mapas+fusos+horarios' },
+				{ label: 'Aula 3', title: 'Globalização e sociedade', description: 'Blocos econômicos, comércio mundial, tecnologia, desigualdades e espaço geográfico brasileiro.', duration: '17 min', focus: 'Sociedade', link: 'https://www.youtube.com/results?search_query=globalizacao+economia+geografia+sociedade' }
 			]
 		};
 		const areaTitle = document.getElementById('area-title');
@@ -341,6 +471,85 @@
 
 		function questionKey(item) {
 			return `${item.area}::${questions.indexOf(item)}`;
+		}
+
+		const miniState = { area: 'Linguagens', index: 0, score: 0, mode: 'basico' };
+
+		function getMiniPool() {
+			if (miniState.area === 'NaturezaHumanas') return simuladoNaturezaHumanas;
+			if (miniState.area === 'Natureza' || miniState.area === 'Humanas') {
+				return revisaoEnfase[miniState.area];
+			}
+			if (miniState.mode === 'avancado') return quickSimuladoDificil[miniState.area];
+			if (miniState.mode === 'final') return quickSimuladoFinal[miniState.area];
+			return quickSimulado[miniState.area];
+		}
+
+		function renderMiniSimulado() {
+			const area = miniState.area === 'NaturezaHumanas' ? 'Natureza + Humanas' : miniState.area;
+			const list = getMiniPool();
+			const container = document.getElementById('mini-simulado-container');
+			if (!list || !list.length) { container.innerHTML = '<div class="empty">Simulado indisponível.</div>'; return; }
+			if (miniState.index >= list.length) {
+				const total = list.length;
+				const percent = Math.round((miniState.score / total) * 100);
+				container.innerHTML = `
+					<div class="summary-box">
+						<strong>Resultado do simulado</strong>
+						<p>Você acertou ${miniState.score} de ${total} questões (${percent}%). Revise os pontos em que errou e volte para outro bloco de estudo.</p>
+					</div>
+				`;
+				return;
+			}
+			const item = list[miniState.index];
+			container.innerHTML = `
+				<div class="mini-card">
+					<div class="mini-top">
+						<span class="mini-tag">${area} · ${miniState.mode === 'avancado' ? 'Rodada 2' : miniState.mode === 'final' ? 'Rodada 3' : 'Rodada 1'}</span>
+						<span>Questão ${miniState.index + 1} de ${list.length}</span>
+					</div>
+					<h3 class="mini-quest">${item.question}</h3>
+					${item.context ? `<p class="mini-context">${item.context}</p>` : ''}
+					<div class="mini-options">
+						${item.options.map((option, index) => `
+							<button class="mini-option" data-index="${index}">
+								<span class="mini-option-letter">${String.fromCharCode(65 + index)}</span>
+								<span>${option}</span>
+							</button>
+						`).join('')}
+					</div>
+					<div class="mini-feedback" id="mini-feedback" style="display:none;"></div>
+				</div>
+			`;
+			container.querySelectorAll('.mini-option').forEach(button => button.addEventListener('click', () => answerMiniQuestion(Number(button.dataset.index), item)));
+		}
+
+		function answerMiniQuestion(choice, item) {
+			const buttons = document.querySelectorAll('.mini-option');
+			const feedback = document.getElementById('mini-feedback');
+			const isCorrect = choice === item.answer;
+			if (isCorrect) miniState.score += 1;
+			buttons.forEach((button, index) => {
+				button.disabled = true;
+				if (index === item.answer) button.classList.add('correct');
+				if (index === choice && !isCorrect) button.classList.add('incorrect');
+			});
+			feedback.innerHTML = `
+				<div class="mini-feedback-title">${isCorrect ? 'Resposta correta!' : `A resposta correta é: ${item.options[item.answer]}`}</div>
+				<p>${item.explanation}</p>
+			`;
+			feedback.style.display = 'block';
+			const nextButton = document.createElement('button');
+			nextButton.className = 'action-button mini-next';
+			nextButton.textContent = miniState.index === getMiniPool().length - 1 ? 'Ver resultado' : 'Próxima questão →';
+			nextButton.addEventListener('click', () => {
+				miniState.index += 1;
+				renderMiniSimulado();
+			});
+			const container = document.getElementById('mini-simulado-container');
+			const existing = container.querySelector('.mini-next');
+			if (existing) existing.remove();
+			container.appendChild(nextButton);
 		}
 
 		function renderQuestion() {
@@ -408,6 +617,29 @@
 			document.getElementById('progress-label').textContent = `${completed}/${total}`;
 			document.getElementById('progress-bar').style.width = `${total ? (completed / total) * 100 : 0}%`;
 		}
+		document.querySelectorAll('.mini-area-btn[data-area]').forEach(button => {
+			button.addEventListener('click', () => {
+				document.querySelectorAll('.mini-area-btn[data-area]').forEach(item => item.classList.remove('active'));
+				button.classList.add('active');
+				miniState.area = button.dataset.area;
+				miniState.index = 0;
+				miniState.score = 0;
+			});
+		});
+		document.querySelectorAll('.mini-area-btn[data-mode]').forEach(button => {
+			button.addEventListener('click', () => {
+				document.querySelectorAll('.mini-area-btn[data-mode]').forEach(item => item.classList.remove('active'));
+				button.classList.add('active');
+				miniState.mode = button.dataset.mode;
+				miniState.index = 0;
+				miniState.score = 0;
+			});
+		});
+		document.getElementById('start-mini-simulado').addEventListener('click', () => {
+			miniState.index = 0;
+			miniState.score = 0;
+			renderMiniSimulado();
+		});
 		document.querySelectorAll('.filter').forEach(button => button.addEventListener('click', () => {
 			document.querySelectorAll('.filter').forEach(item => item.classList.remove('active'));
 			button.classList.add('active');
@@ -421,6 +653,7 @@
 		renderAreaTitle();
 		renderRecommendations();
 		renderQuestion();
+		renderMiniSimulado();
 	</script>
 </body>
 </html>
