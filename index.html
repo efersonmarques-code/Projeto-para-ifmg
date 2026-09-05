@@ -56,12 +56,47 @@
 		.hero-card { padding: 22px; color: var(--ink); background: var(--yellow); border-radius: 14px; transform: rotate(2deg); box-shadow: 12px 16px 0 rgba(0,0,0,.12); }
 		.hero-card strong { display: block; margin-bottom: 12px; font-size: 1.35rem; }
 		.hero-card span { display: block; font: 700 11px Arial, sans-serif; letter-spacing: .1em; text-transform: uppercase; }
+		.study-grid { max-width: 1180px; margin: 26px auto 26px; padding: 0 6vw; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+		.study-card {
+			padding: 22px 20px 18px;
+			background: linear-gradient(180deg, rgba(255,255,255,0.22), rgba(255,255,255,0.12));
+			border: 1px solid rgba(255,255,255,0.35);
+			border-radius: 14px;
+			box-shadow: 0 12px 26px rgba(0,0,0,0.10);
+			backdrop-filter: blur(6px);
+		}
+		.study-card strong {
+			display: block;
+			margin-bottom: 10px;
+			color: #111827;
+			font-size: 1.35rem;
+			letter-spacing: -.02em;
+			font-weight: 700;
+		}
+		.study-card p {
+			margin: 0;
+			color: rgba(17, 24, 39, 0.82);
+			line-height: 1.75;
+			font-size: 1.02rem;
+		}
+		.study-card .step {
+			display: inline-flex;
+			margin-bottom: 12px;
+			padding: 9px 12px;
+			color: #0d3d2f;
+			background: var(--yellow);
+			border-radius: 999px;
+			font: 700 12px Arial, sans-serif;
+			letter-spacing: .10em;
+			text-transform: uppercase;
+			box-shadow: inset 0 0 0 1px rgba(17, 100, 79, .15);
+		}
 
 		main { max-width: 1180px; margin: -8px auto 80px; padding: 0 6vw; }
 		.stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 34px; }
-		.stat { padding: 18px 20px; background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.7)); border: 1px solid var(--line); border-radius: 10px; box-shadow: 0 10px 20px rgba(25,37,47,.03); }
+		.stat { display: flex; flex-direction: column; justify-content: center; gap: 8px; padding: 18px 20px; background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.7)); border: 1px solid var(--line); border-radius: 10px; box-shadow: 0 10px 20px rgba(25,37,47,.03); }
 		.stat-label { color: var(--muted); font: 700 11px Arial, sans-serif; letter-spacing: .1em; text-transform: uppercase; }
-		.stat-value { display: block; margin-top: 7px; font-size: 1.8rem; }
+		.stat-value { display: block; font-size: 1.8rem; line-height: 1.1; }
 		.layout { display: grid; grid-template-columns: 255px 1fr; gap: 32px; align-items: start; }
 		aside { position: sticky; top: 20px; }
 		.side-title { margin-bottom: 12px; color: var(--muted); font: 700 11px Arial, sans-serif; letter-spacing: .12em; text-transform: uppercase; }
@@ -87,6 +122,9 @@
 		.section-heading { display: flex; justify-content: space-between; align-items: end; gap: 20px; margin-bottom: 20px; }
 		.section-heading h2 { margin-bottom: 5px; font-size: 2.15rem; letter-spacing: -.03em; }
 		.section-heading p { margin-bottom: 0; color: var(--muted); }
+		.section-actions { display: flex; align-items: center; gap: 12px; }
+		.reset-button { padding: 10px 12px; color: var(--green); border: 1px solid var(--line); background: #fff; border-radius: 7px; font: 700 12px Arial, sans-serif; }
+		.reset-button:hover { background: #f6f4ee; }
 		.progress-wrap { min-width: 150px; }
 		.progress-text { display: flex; justify-content: space-between; margin-bottom: 6px; color: var(--muted); font: 700 11px Arial, sans-serif; }
 		.progress { height: 8px; overflow: hidden; background: #dfe5df; border-radius: 20px; }
@@ -154,6 +192,23 @@
 				<div class="hero-card"><span>Como estudar</span><strong>Leia a questão. Pense. Só depois confira a explicação.</strong><span>Uma questão por vez</span></div>
 			</div>
 		</header>
+		<section class="study-grid" aria-label="Estratégia de estudo">
+			<div class="study-card">
+				<span class="step">Passo 1</span>
+				<strong>Entenda o tema</strong>
+				<p>Escolha uma área e revise os conceitos mais recorrentes na prova do IFMG.</p>
+			</div>
+			<div class="study-card">
+				<span class="step">Passo 2</span>
+				<strong>Resolva com foco</strong>
+				<p>Responda sem olhar a explicação e anote o que ainda precisa reforçar.</p>
+			</div>
+			<div class="study-card">
+				<span class="step">Passo 3</span>
+				<strong>Reforce a revisão</strong>
+				<p>Use as aulas recomendadas para fechar lacunas e melhorar a velocidade.</p>
+			</div>
+		</section>
 
 		<main>
 			<section class="stats" aria-label="Seu progresso">
@@ -182,7 +237,10 @@
 				<section class="workspace" aria-live="polite">
 					<div class="section-heading">
 						<div><h2 id="area-title">Todas as áreas</h2><p id="area-description">Pratique um pouco de cada componente da prova.</p></div>
-						<div class="progress-wrap"><div class="progress-text"><span>Progresso da sessão</span><span id="progress-label">0/12</span></div><div class="progress"><div class="progress-bar" id="progress-bar"></div></div></div>
+						<div class="section-actions">
+							<button class="reset-button" id="reset-session">Reiniciar sessão</button>
+							<div class="progress-wrap"><div class="progress-text"><span>Progresso da sessão</span><span id="progress-label">0/12</span></div><div class="progress"><div class="progress-bar" id="progress-bar"></div></div></div>
+						</div>
 					</div>
 					<div id="question-container"></div>
 				</section>
@@ -209,42 +267,49 @@
 
 		let selectedArea = 'Todas';
 		let currentIndex = 0;
-		let answered = 0;
-		let correct = 0;
 		let answeredCurrent = false;
+		const answeredQuestions = new Set();
+		const correctQuestions = new Set();
+		const areaLabels = {
+			Todas: 'Todas as áreas',
+			Linguagens: 'Linguagens',
+			Matemática: 'Matemática',
+			Natureza: 'Ciências da Natureza',
+			Humanas: 'Ciências Humanas'
+		};
 		const areaDescriptions = {
 			Todas: 'Pratique um pouco de cada componente da prova.',
-			Linguagens: 'Leia entrelinhas, identifique sentidos e compreenda como o texto funciona.',
-			Matemática: 'Organize os dados, escolha a estratégia correta e verifique o resultado.',
-			Natureza: 'Relacione os fenômenos da natureza com o cotidiano e com os princípios científicos.',
-			Humanas: 'Conecte tempo, espaço, sociedade, direitos e história.'
+			Linguagens: 'Compreensão de texto, interpretação, gramática e análise linguística do ensino médio.',
+			Matemática: 'Números, álgebra, geometria, medidas, porcentagem, regra de três e probabilidade.',
+			Natureza: 'Física, química, biologia, ecologia, energia e fenômenos naturais do cotidiano.',
+			Humanas: 'História, geografia, cidadania, direitos, espaço urbano e sociedade.'
 		};
 		const recommendations = {
 			Todas: [
-				{ label: 'Linguagens', title: 'Leitura crítica e interpretação', description: 'Aula para revisar leitura de textos, análise de sentidos e diferenciação entre fato e opinião.', duration: '15 min', focus: 'Texto', link: 'https://www.youtube.com/results?search_query=interpreta%C3%A7%C3%A3o+de+textos+ensino+m%C3%A9dio' },
-				{ label: 'Matemática', title: 'Porcentagem e geometria', description: 'Aula focada em cálculo, teorema de Pitágoras e interpretação de problemas do cotidiano.', duration: '20 min', focus: 'Cálculo', link: 'https://www.youtube.com/results?search_query=porcentagem+e+teorema+de+pit%C3%A1goras' },
-				{ label: 'Natureza', title: 'Energia e funções vitais', description: 'Aula para compreender transformações de energia, ecologia e o papel das estruturas das plantas.', duration: '18 min', focus: 'Ciência', link: 'https://www.youtube.com/results?search_query=energia+e+fun%C3%A7%C3%B5es+das+plantas' },
-				{ label: 'Humanas', title: 'Direitos, história e espaço', description: 'Aula com revisão de Constituição, urbanização e mudanças sociais ao longo do tempo.', duration: '17 min', focus: 'Sociedade', link: 'https://www.youtube.com/results?search_query=Constitui%C3%A7%C3%A3o+1988+historia+geografia+ensino+m%C3%A9dio' }
+				{ label: 'Linguagens', title: 'Leitura crítica e interpretação', description: 'Revisão de texto, fato e opinião, gêneros textuais, inferência e análise linguística.', duration: '15 min', focus: 'Texto', link: 'https://www.youtube.com/results?search_query=interpreta%C3%A7%C3%A3o+de+textos+ensino+m%C3%A9dio' },
+				{ label: 'Matemática', title: 'Números, álgebra e geometria', description: 'Frações, potências, porcentagem, equações, Teorema de Pitágoras, medidas e probabilidade.', duration: '20 min', focus: 'Cálculo', link: 'https://www.youtube.com/results?search_query=conteudo+de+matematica+ifmg+ensino+fundamental' },
+				{ label: 'Ciências da Natureza', title: 'Física, química e biologia', description: 'Energia, matéria, ecologia, funções das plantas, atmosfera, clima e transformações naturais.', duration: '18 min', focus: 'Ciência', link: 'https://www.youtube.com/results?search_query=biologia+fisica+quimica+ensino+fundamental' },
+				{ label: 'Ciências Humanas', title: 'História, geografia e cidadania', description: 'Constituição, direitos, urbanização, escravidão, sociedade e desenvolvimento histórico.', duration: '17 min', focus: 'Sociedade', link: 'https://www.youtube.com/results?search_query=historia+geografia+direitos+cidadania+ensino+fundamental' }
 			],
 			Linguagens: [
-				{ label: 'Aula 1', title: 'Interpretação de textos', description: 'Entenda como distinguir fato, opinião, inferência e argumento em notícias e textos argumentativos.', duration: '15 min', focus: 'Leitura', link: 'https://www.youtube.com/results?search_query=interpreta%C3%A7%C3%A3o+de+textos+portugu%C3%AAs' },
-				{ label: 'Aula 2', title: 'Gramática e sintaxe', description: 'Revise orações subordinadas, concordância, regência e estrutura das frases.', duration: '12 min', focus: 'Sintaxe', link: 'https://www.youtube.com/results?search_query=ora%C3%A7%C3%B5es+subordinadas+gram%C3%A1tica' },
-				{ label: 'Aula 3', title: 'Figuras de linguagem', description: 'Estude metáfora, personificação, ironia e outros recursos que tornam a linguagem mais expressiva.', duration: '10 min', focus: 'Estilo', link: 'https://www.youtube.com/results?search_query=figuras+de+linguagem+resumo' }
+				{ label: 'Aula 1', title: 'Interpretação de textos', description: 'Diferencie fato e opinião, identifique ironia, sentido figurado e contexto do texto.', duration: '15 min', focus: 'Leitura', link: 'https://www.youtube.com/results?search_query=interpreta%C3%A7%C3%A3o+de+textos+ensino+m%C3%A9dio' },
+				{ label: 'Aula 2', title: 'Gramática e sintaxe', description: 'Revise sujeito, predicado, concordância, regência, pontuação e classes de palavras.', duration: '12 min', focus: 'Sintaxe', link: 'https://www.youtube.com/results?search_query=gramatica+portuguesa+ensino+fundamental' },
+				{ label: 'Aula 3', title: 'Coesão e coerência', description: 'Entenda como conectivos, pronomes, sinônimos e organização textual melhoram a leitura.', duration: '10 min', focus: 'Estilo', link: 'https://www.youtube.com/results?search_query=coesao+e+coerencia+portugues' }
 			],
 			Matemática: [
-				{ label: 'Aula 1', title: 'Porcentagem e desconto', description: 'Treine cálculo de porcentagem, reajustes e descontos em situações comuns do dia a dia.', duration: '14 min', focus: 'Álgebra', link: 'https://www.youtube.com/results?search_query=porcentagem+desconto+matem%C3%A1tica' },
-				{ label: 'Aula 2', title: 'Teorema de Pitágoras', description: 'Aprenda a identificar triângulos retângulos e calcular lados desconhecidos com segurança.', duration: '13 min', focus: 'Geometria', link: 'https://www.youtube.com/results?search_query=teorema+de+pitagoras+explica%C3%A7%C3%A3o' },
-				{ label: 'Aula 3', title: 'Probabilidade', description: 'Entenda espaço amostral, eventos e a relação entre casos favoráveis e possíveis.', duration: '11 min', focus: 'Análise', link: 'https://www.youtube.com/results?search_query=probabilidade+matematica+ensino+medio' }
+				{ label: 'Aula 1', title: 'Números e operações', description: 'Frações, decimais, potência, raiz, MMC, MDC, porcentagem e regra de três.', duration: '14 min', focus: 'Álgebra', link: 'https://www.youtube.com/results?search_query=porcentagem+fra%C3%A7%C3%B5es+regra+de+tr%C3%AAs+matematica' },
+				{ label: 'Aula 2', title: 'Geometria e medidas', description: 'Polígonos, semelhança de triângulos, Teorema de Pitágoras e áreas e perímetros.', duration: '13 min', focus: 'Geometria', link: 'https://www.youtube.com/results?search_query=pitagoras+geometria+areas+perimetros' },
+				{ label: 'Aula 3', title: 'Probabilidade e estatística', description: 'Princípio fundamental da contagem, média, mediana, moda e interpretação de gráficos.', duration: '11 min', focus: 'Análise', link: 'https://www.youtube.com/results?search_query=probabilidade+estatistica+ensino+fundamental' }
 			],
 			Natureza: [
-				{ label: 'Aula 1', title: 'Matéria e energia', description: 'Revise transformações de energia em aparelhos do cotidiano, como chuveiros e motores.', duration: '16 min', focus: 'Física', link: 'https://www.youtube.com/results?search_query=mat%C3%A9ria+e+energia+f%C3%ADsica' },
-				{ label: 'Aula 2', title: 'Funções das plantas', description: 'Estude raízes, folhas, flores e como as plantas realizam trocas com o ambiente.', duration: '15 min', focus: 'Biologia', link: 'https://www.youtube.com/results?search_query=raizes+folhas+plantas+biologia' },
-				{ label: 'Aula 3', title: 'Atmosfera e clima', description: 'Entenda efeito estufa, gases atmosféricos e o papel do clima na manutenção da vida.', duration: '14 min', focus: 'Meio ambiente', link: 'https://www.youtube.com/results?search_query=efeito+estufa+atmosfera+biologia' }
+				{ label: 'Aula 1', title: 'Matéria e energia', description: 'Transformações de energia, fenômenos físicos, calor, movimento e energia elétrica.', duration: '16 min', focus: 'Física', link: 'https://www.youtube.com/results?search_query=energia+fisica+ensino+fundamental' },
+				{ label: 'Aula 2', title: 'Biologia e ecologia', description: 'Funções das plantas, células, ciclos da vida e relações entre organismos e ambiente.', duration: '15 min', focus: 'Biologia', link: 'https://www.youtube.com/results?search_query=biologia+ecologia+ensino+fundamental' },
+				{ label: 'Aula 3', title: 'Atmosfera e química', description: 'Efeito estufa, substâncias, reações, água, solo e processos naturais do planeta.', duration: '14 min', focus: 'Química', link: 'https://www.youtube.com/results?search_query=quimica+ambiente+efeito+estufa+ensino+fundamental' }
 			],
 			Humanas: [
-				{ label: 'Aula 1', title: 'Constituição e cidadania', description: 'Revise direitos civis, políticos e sociais e os avanços da Constituição de 1988.', duration: '18 min', focus: 'Direitos', link: 'https://www.youtube.com/results?search_query=constitui%C3%A7%C3%A3o+1988+direitos+cidadania' },
-				{ label: 'Aula 2', title: 'Urbanização e desigualdade', description: 'Observe como a expansão urbana cria conflitos sociais e diferenciações no espaço urbano.', duration: '16 min', focus: 'Geografia', link: 'https://www.youtube.com/results?search_query=urbaniza%C3%A7%C3%A3o+desigualdade+geografia' },
-				{ label: 'Aula 3', title: 'Escravidão e abolição', description: 'Compreenda as consequências da escravidão e os desafios da inclusão após a abolição.', duration: '17 min', focus: 'História', link: 'https://www.youtube.com/results?search_query=escravid%C3%A3o+aboli%C3%A7%C3%A3o+hist%C3%B3ria' }
+				{ label: 'Aula 1', title: 'Constituição e cidadania', description: 'Direitos civis, políticos e sociais, além da importância da Constituição de 1988.', duration: '18 min', focus: 'Direitos', link: 'https://www.youtube.com/results?search_query=constituicao+1988+direitos+cidadania' },
+				{ label: 'Aula 2', title: 'Geografia urbana e espaço', description: 'Urbanização, desigualdade social, infraestrutura, ocupação do espaço e migração.', duration: '16 min', focus: 'Geografia', link: 'https://www.youtube.com/results?search_query=urbanizacao+geografia+desigualdade+ensino+fundamental' },
+				{ label: 'Aula 3', title: 'História e sociedade', description: 'Escravidão, abolição, Brasil imperial, transformações sociais e cidadania.', duration: '17 min', focus: 'História', link: 'https://www.youtube.com/results?search_query=historia+escravidao+abolicao+brasil' }
 			]
 		};
 		const areaTitle = document.getElementById('area-title');
@@ -269,35 +334,50 @@
 			`).join('');
 		}
 
+		function renderAreaTitle() {
+			areaTitle.textContent = areaLabels[selectedArea] || 'Todas as áreas';
+			areaDescription.textContent = areaDescriptions[selectedArea] || areaDescriptions.Todas;
+		}
+
+		function questionKey(item) {
+			return `${item.area}::${questions.indexOf(item)}`;
+		}
+
 		function renderQuestion() {
 			const list = visibleQuestions();
 			if (!list.length) { container.innerHTML = '<div class="empty">Nenhuma questão encontrada nesta área.</div>'; return; }
 			if (currentIndex >= list.length) currentIndex = 0;
 			const item = list[currentIndex];
 			answeredCurrent = false;
+			const subjectLabel = areaLabels[item.area] || item.area;
 			container.innerHTML = `<article class="question-card">
-				<div class="question-meta"><span class="tag">${item.area} · ${item.tag}</span><span class="question-number">Questão ${currentIndex + 1} de ${list.length}</span></div>
+				<div class="question-meta"><span class="tag">${subjectLabel} · ${item.tag}</span><span class="question-number">Questão ${currentIndex + 1} de ${list.length}</span></div>
 				<h3 class="question">${item.question}</h3>
 				${item.context ? `<p class="context">${item.context}</p>` : ''}
 				<div class="options">${item.options.map((option, index) => `<button class="option" data-index="${index}"><span class="option-letter">${String.fromCharCode(65 + index)}</span><span>${option}</span></button>`).join('')}</div>
 				<div class="feedback" id="feedback"><div class="feedback-title" id="feedback-title"></div><p>${item.explanation}</p></div>
 				<div class="actions"><button class="action-button secondary" id="reset-button">↻ Refazer questão</button><button class="action-button" id="next-button">Próxima questão →</button></div>
 			</article>`;
-			container.querySelectorAll('.option').forEach(button => button.addEventListener('click', () => chooseAnswer(Number(button.dataset.index), item.answer)));
+			container.querySelectorAll('.option').forEach(button => button.addEventListener('click', () => chooseAnswer(Number(button.dataset.index), item)));
 			document.getElementById('next-button').addEventListener('click', nextQuestion);
-			document.getElementById('reset-button').addEventListener('click', renderQuestion);
-			updateProgress();
+			document.getElementById('reset-button').addEventListener('click', () => {
+				answeredQuestions.delete(questionKey(item));
+				correctQuestions.delete(questionKey(item));
+				renderQuestion();
+			});
+			updateStats();
 		}
 
-		function chooseAnswer(choice, answer) {
-			if (answeredCurrent) return;
+		function chooseAnswer(choice, item) {
+			const key = questionKey(item);
+			if (answeredCurrent || answeredQuestions.has(key)) return;
 			answeredCurrent = true;
-			answered++;
-			const isCorrect = choice === answer;
-			if (isCorrect) correct++;
+			answeredQuestions.add(key);
+			const isCorrect = choice === item.answer;
+			if (isCorrect) correctQuestions.add(key);
 			container.querySelectorAll('.option').forEach((button, index) => {
 				button.disabled = true;
-				if (index === answer) button.classList.add('correct');
+				if (index === item.answer) button.classList.add('correct');
 				if (index === choice && !isCorrect) button.classList.add('incorrect');
 			});
 			const feedback = document.getElementById('feedback');
@@ -307,16 +387,24 @@
 		}
 
 		function nextQuestion() { currentIndex = (currentIndex + 1) % visibleQuestions().length; renderQuestion(); }
+		function resetSession() {
+			answeredQuestions.clear();
+			correctQuestions.clear();
+			currentIndex = 0;
+			renderQuestion();
+		}
 		function updateStats() {
-			document.getElementById('answered-count').textContent = answered;
-			document.getElementById('correct-count').textContent = correct;
-			document.getElementById('accuracy').textContent = answered ? Math.round(correct / answered * 100) + '%' : '0%';
+			const totalAnswered = answeredQuestions.size;
+			const totalCorrect = correctQuestions.size;
+			document.getElementById('answered-count').textContent = totalAnswered;
+			document.getElementById('correct-count').textContent = totalCorrect;
+			document.getElementById('accuracy').textContent = totalAnswered ? Math.round(totalCorrect / totalAnswered * 100) + '%' : '0%';
 			updateProgress();
 		}
 		function updateProgress() {
 			const list = visibleQuestions();
 			const total = list.length;
-			const completed = Math.min(answered, total);
+			const completed = list.filter(item => answeredQuestions.has(questionKey(item))).length;
 			document.getElementById('progress-label').textContent = `${completed}/${total}`;
 			document.getElementById('progress-bar').style.width = `${total ? (completed / total) * 100 : 0}%`;
 		}
@@ -325,11 +413,12 @@
 			button.classList.add('active');
 			selectedArea = button.dataset.area;
 			currentIndex = 0;
-			areaTitle.textContent = selectedArea === 'Todas' ? 'Todas as áreas' : selectedArea;
-			areaDescription.textContent = areaDescriptions[selectedArea];
+			renderAreaTitle();
 			renderRecommendations();
 			renderQuestion();
 		}));
+		document.getElementById('reset-session').addEventListener('click', resetSession);
+		renderAreaTitle();
 		renderRecommendations();
 		renderQuestion();
 	</script>
