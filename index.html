@@ -59,7 +59,7 @@
 
 		main { max-width: 1180px; margin: -8px auto 80px; padding: 0 6vw; }
 		.stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 34px; }
-		.stat { padding: 18px 20px; background: var(--card); border: 1px solid var(--line); border-radius: 10px; }
+		.stat { padding: 18px 20px; background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.7)); border: 1px solid var(--line); border-radius: 10px; box-shadow: 0 10px 20px rgba(25,37,47,.03); }
 		.stat-label { color: var(--muted); font: 700 11px Arial, sans-serif; letter-spacing: .1em; text-transform: uppercase; }
 		.stat-value { display: block; margin-top: 7px; font-size: 1.8rem; }
 		.layout { display: grid; grid-template-columns: 255px 1fr; gap: 32px; align-items: start; }
@@ -69,7 +69,18 @@
 		.filter { width: 100%; padding: 13px 14px; color: var(--ink); text-align: left; background: transparent; border: 1px solid transparent; border-radius: 8px; }
 		.filter:hover, .filter.active { background: var(--card); border-color: var(--line); box-shadow: 0 5px 15px rgba(25,37,47,.05); }
 		.filter.active { color: var(--green); font-weight: bold; border-left: 4px solid var(--orange); }
-		.study-tip { margin-top: 30px; padding: 20px; color: #fffdf8; background: var(--blue); border-radius: 10px; }
+		.recommendations { margin-top: 26px; }
+		.recommendations-header { margin-bottom: 10px; color: var(--muted); font: 700 11px Arial, sans-serif; letter-spacing: .12em; text-transform: uppercase; }
+		.rec-list { display: grid; gap: 10px; }
+		.rec-card { padding: 14px 14px 12px; background: linear-gradient(180deg, #fffdf8 0%, #f6f4ee 100%); border: 1px solid var(--line); border-left: 4px solid var(--orange); border-radius: 10px; box-shadow: 0 8px 18px rgba(25,37,47,.04); transition: transform .2s ease, box-shadow .2s ease; }
+		.rec-card:hover { transform: translateY(-2px); box-shadow: 0 12px 24px rgba(25,37,47,.08); }
+		.rec-label { display: inline-block; margin-bottom: 6px; color: var(--green); font: 700 10px Arial, sans-serif; letter-spacing: .08em; text-transform: uppercase; }
+		.rec-card h3 { margin: 0 0 6px; font-size: 1.02rem; }
+		.rec-card p { margin: 0; color: var(--muted); font-size: .9rem; line-height: 1.45; }
+		.rec-meta { display: flex; justify-content: space-between; gap: 8px; margin: 10px 0 0; color: var(--green); font: 700 10px Arial, sans-serif; letter-spacing: .06em; text-transform: uppercase; }
+		.rec-card a { display: inline-block; margin-top: 12px; color: var(--green); font: 700 12px Arial, sans-serif; text-decoration: none; }
+		.rec-card a:hover { text-decoration: underline; }
+		.study-tip { margin-top: 30px; padding: 20px; color: #fffdf8; background: linear-gradient(135deg, var(--blue), #4d88b7); border-radius: 10px; box-shadow: 0 10px 24px rgba(47,111,158,.18); }
 		.study-tip strong { display: block; margin-bottom: 9px; font-size: 1.15rem; }
 		.study-tip p { margin-bottom: 0; font-size: .95rem; line-height: 1.5; }
 		.workspace { min-width: 0; }
@@ -161,6 +172,10 @@
 						<button class="filter" data-area="Natureza">Ciências da Natureza</button>
 						<button class="filter" data-area="Humanas">Ciências Humanas</button>
 					</nav>
+					<div class="recommendations">
+						<div class="recommendations-header">Aulas recomendadas</div>
+						<div class="rec-list" id="recommendations-list"></div>
+					</div>
 					<div class="study-tip"><strong>Pequeno método</strong><p>Quando errar, explique em voz alta por que a alternativa correta faz sentido. A memória gosta de conexões.</p></div>
 				</aside>
 
@@ -197,12 +212,62 @@
 		let answered = 0;
 		let correct = 0;
 		let answeredCurrent = false;
-		const areaDescriptions = { Todas: 'Pratique um pouco de cada componente da prova.', Linguagens: 'Leia nas entrelinhas e observe como o texto constrói sentidos.', Matemática: 'Organize os dados, escolha a estratégia e confira o resultado.', Natureza: 'Relacione os fenômenos científicos ao cotidiano.', Humanas: 'Conecte tempo, espaço, sociedade e direitos.' };
+		const areaDescriptions = {
+			Todas: 'Pratique um pouco de cada componente da prova.',
+			Linguagens: 'Leia entrelinhas, identifique sentidos e compreenda como o texto funciona.',
+			Matemática: 'Organize os dados, escolha a estratégia correta e verifique o resultado.',
+			Natureza: 'Relacione os fenômenos da natureza com o cotidiano e com os princípios científicos.',
+			Humanas: 'Conecte tempo, espaço, sociedade, direitos e história.'
+		};
+		const recommendations = {
+			Todas: [
+				{ label: 'Linguagens', title: 'Leitura crítica e interpretação', description: 'Aula para revisar leitura de textos, análise de sentidos e diferenciação entre fato e opinião.', duration: '15 min', focus: 'Texto', link: 'https://www.youtube.com/results?search_query=interpreta%C3%A7%C3%A3o+de+textos+ensino+m%C3%A9dio' },
+				{ label: 'Matemática', title: 'Porcentagem e geometria', description: 'Aula focada em cálculo, teorema de Pitágoras e interpretação de problemas do cotidiano.', duration: '20 min', focus: 'Cálculo', link: 'https://www.youtube.com/results?search_query=porcentagem+e+teorema+de+pit%C3%A1goras' },
+				{ label: 'Natureza', title: 'Energia e funções vitais', description: 'Aula para compreender transformações de energia, ecologia e o papel das estruturas das plantas.', duration: '18 min', focus: 'Ciência', link: 'https://www.youtube.com/results?search_query=energia+e+fun%C3%A7%C3%B5es+das+plantas' },
+				{ label: 'Humanas', title: 'Direitos, história e espaço', description: 'Aula com revisão de Constituição, urbanização e mudanças sociais ao longo do tempo.', duration: '17 min', focus: 'Sociedade', link: 'https://www.youtube.com/results?search_query=Constitui%C3%A7%C3%A3o+1988+historia+geografia+ensino+m%C3%A9dio' }
+			],
+			Linguagens: [
+				{ label: 'Aula 1', title: 'Interpretação de textos', description: 'Entenda como distinguir fato, opinião, inferência e argumento em notícias e textos argumentativos.', duration: '15 min', focus: 'Leitura', link: 'https://www.youtube.com/results?search_query=interpreta%C3%A7%C3%A3o+de+textos+portugu%C3%AAs' },
+				{ label: 'Aula 2', title: 'Gramática e sintaxe', description: 'Revise orações subordinadas, concordância, regência e estrutura das frases.', duration: '12 min', focus: 'Sintaxe', link: 'https://www.youtube.com/results?search_query=ora%C3%A7%C3%B5es+subordinadas+gram%C3%A1tica' },
+				{ label: 'Aula 3', title: 'Figuras de linguagem', description: 'Estude metáfora, personificação, ironia e outros recursos que tornam a linguagem mais expressiva.', duration: '10 min', focus: 'Estilo', link: 'https://www.youtube.com/results?search_query=figuras+de+linguagem+resumo' }
+			],
+			Matemática: [
+				{ label: 'Aula 1', title: 'Porcentagem e desconto', description: 'Treine cálculo de porcentagem, reajustes e descontos em situações comuns do dia a dia.', duration: '14 min', focus: 'Álgebra', link: 'https://www.youtube.com/results?search_query=porcentagem+desconto+matem%C3%A1tica' },
+				{ label: 'Aula 2', title: 'Teorema de Pitágoras', description: 'Aprenda a identificar triângulos retângulos e calcular lados desconhecidos com segurança.', duration: '13 min', focus: 'Geometria', link: 'https://www.youtube.com/results?search_query=teorema+de+pitagoras+explica%C3%A7%C3%A3o' },
+				{ label: 'Aula 3', title: 'Probabilidade', description: 'Entenda espaço amostral, eventos e a relação entre casos favoráveis e possíveis.', duration: '11 min', focus: 'Análise', link: 'https://www.youtube.com/results?search_query=probabilidade+matematica+ensino+medio' }
+			],
+			Natureza: [
+				{ label: 'Aula 1', title: 'Matéria e energia', description: 'Revise transformações de energia em aparelhos do cotidiano, como chuveiros e motores.', duration: '16 min', focus: 'Física', link: 'https://www.youtube.com/results?search_query=mat%C3%A9ria+e+energia+f%C3%ADsica' },
+				{ label: 'Aula 2', title: 'Funções das plantas', description: 'Estude raízes, folhas, flores e como as plantas realizam trocas com o ambiente.', duration: '15 min', focus: 'Biologia', link: 'https://www.youtube.com/results?search_query=raizes+folhas+plantas+biologia' },
+				{ label: 'Aula 3', title: 'Atmosfera e clima', description: 'Entenda efeito estufa, gases atmosféricos e o papel do clima na manutenção da vida.', duration: '14 min', focus: 'Meio ambiente', link: 'https://www.youtube.com/results?search_query=efeito+estufa+atmosfera+biologia' }
+			],
+			Humanas: [
+				{ label: 'Aula 1', title: 'Constituição e cidadania', description: 'Revise direitos civis, políticos e sociais e os avanços da Constituição de 1988.', duration: '18 min', focus: 'Direitos', link: 'https://www.youtube.com/results?search_query=constitui%C3%A7%C3%A3o+1988+direitos+cidadania' },
+				{ label: 'Aula 2', title: 'Urbanização e desigualdade', description: 'Observe como a expansão urbana cria conflitos sociais e diferenciações no espaço urbano.', duration: '16 min', focus: 'Geografia', link: 'https://www.youtube.com/results?search_query=urbaniza%C3%A7%C3%A3o+desigualdade+geografia' },
+				{ label: 'Aula 3', title: 'Escravidão e abolição', description: 'Compreenda as consequências da escravidão e os desafios da inclusão após a abolição.', duration: '17 min', focus: 'História', link: 'https://www.youtube.com/results?search_query=escravid%C3%A3o+aboli%C3%A7%C3%A3o+hist%C3%B3ria' }
+			]
+		};
 		const areaTitle = document.getElementById('area-title');
 		const areaDescription = document.getElementById('area-description');
 		const container = document.getElementById('question-container');
+		const recommendationsList = document.getElementById('recommendations-list');
 
 		function visibleQuestions() { return selectedArea === 'Todas' ? questions : questions.filter(item => item.area === selectedArea); }
+		function renderRecommendations() {
+			const list = recommendations[selectedArea] || recommendations.Todas;
+			recommendationsList.innerHTML = list.map(item => `
+				<div class="rec-card">
+					<span class="rec-label">${item.label}</span>
+					<h3>${item.title}</h3>
+					<p>${item.description}</p>
+					<div class="rec-meta">
+						<span>${item.focus}</span>
+						<span>${item.duration}</span>
+					</div>
+					<a href="${item.link}" target="_blank" rel="noopener noreferrer">Assistir aula →</a>
+				</div>
+			`).join('');
+		}
 
 		function renderQuestion() {
 			const list = visibleQuestions();
@@ -249,7 +314,8 @@
 			updateProgress();
 		}
 		function updateProgress() {
-			const total = questions.length;
+			const list = visibleQuestions();
+			const total = list.length;
 			const completed = Math.min(answered, total);
 			document.getElementById('progress-label').textContent = `${completed}/${total}`;
 			document.getElementById('progress-bar').style.width = `${total ? (completed / total) * 100 : 0}%`;
@@ -261,8 +327,10 @@
 			currentIndex = 0;
 			areaTitle.textContent = selectedArea === 'Todas' ? 'Todas as áreas' : selectedArea;
 			areaDescription.textContent = areaDescriptions[selectedArea];
+			renderRecommendations();
 			renderQuestion();
 		}));
+		renderRecommendations();
 		renderQuestion();
 	</script>
 </body>
